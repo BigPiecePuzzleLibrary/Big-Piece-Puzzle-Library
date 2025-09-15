@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Puzzles to Enjoy at Home – Borrow & Browse</title>
+  <meta name="description" content="Volunteer-led large-piece puzzle library. Browse and borrow 63–500 piece XL & XXL puzzles with delivery/collection on Mondays." />
+  <style>
+    :root {
+      --bg: #faf9fb;
+      --card: #ffffff;
+      --ink: #1e1e23;
+      --muted: #5e5e6a;
+      --brand: #6c60ff;
+      --brand-soft: #ecebff;
+      --accent: #ff89b5;
+      --radius: 18px;
+      --shadow: 0 6px 24px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink); background: var(--bg);
+    }
+    header {
+      padding: 28px 20px; background: linear-gradient(180deg, var(--brand-soft), #fff0f6);
+      border-bottom: 1px solid #eee;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .title {
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+    }
+    .badge { background: var(--brand); color: #fff; padding: 6px 10px; border-radius: 999px; font-size: 12px; }
+    h1 { margin: 0; font-size: clamp(22px, 3.2vw, 34px); }
+    p.lead { margin: 8px 0 0; color: var(--muted); max-width: 70ch; }
+
+    .controls { margin: 18px 0 0; display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 720px){ .controls { grid-template-columns: 1fr 240px 240px; } }
+    input[type="search"], select {
+      width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 12px; background: #fff; font-size: 14px; color: var(--ink);
+    }
+    .notice { margin: 16px 0 0; font-size: 14px; color: var(--muted); }
+
+    main { padding: 24px 0 60px; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; }
+    .thumb { aspect-ratio: 4/3; width: 100%; object-fit: cover; background: #f1f1f4; }
+    .meta { padding: 12px 14px; display: grid; gap: 6px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { font-size: 12px; padding: 4px 8px; background: #f3f3f6; border-radius: 999px; color: var(--muted); }
+    .chip.brand { background: var(--brand-soft); color: var(--brand); }
+    .chip.accent { background: #ffe5ef; color: #cc4c86; }
+    .small { font-size: 12px; color: var(--muted); }
+
+    footer { border-top: 1px solid #eee; background: #fff; }
+    .foot { padding: 18px 20px; display: grid; gap: 10px; }
+    @media (min-width: 720px){ .foot { grid-template-columns: 1fr auto; align-items: center; } }
+    .cta { display: inline-flex; align-items: center; gap: 10px; background: var(--brand); color: #fff; padding: 10px 14px; border-radius: 12px; text-decoration: none; font-weight: 600; }
+    .pill { background: #f4f4f8; border-radius: 999px; padding: 6px 10px; }
+  </style>
+</head>
+<body>
+  <!--
+    EDITING GUIDE (2 minutes):
+    1) Replace CONTACT_NAME and CONTACT_METHOD below.
+    2) Update the puzzles in the P U Z Z L E S array (title, pieces, size, subject, image URL).
+    3) Put your pictures in the same folder and reference them like "images/filename.jpg" OR paste full image URLs.
+    4) Publish: drag this file to https://app.netlify.com/drop or enable GitHub Pages on any repo with this file as index.html.
+  -->
+
+  <header>
+    <div class="wrap">
+      <div class="title">
+        <span class="badge">Volunteer</span>
+        <h1>Puzzles to Enjoy at Home</h1>
+      </div>
+      <p class="lead">Large‑piece jigsaws to borrow (63–500 pieces). Kindly run by volunteers for anyone living with low vision, memory changes, or reduced dexterity — and for carers, family and friends.</p>
+
+      <div class="controls" role="search">
+        <input id="q" type="search" placeholder="Search by title or subject… (e.g. Flowers, Steam Train)" aria-label="Search puzzles" />
+        <select id="pieces">
+          <option value="">Any piece count</option>
+          <option value="0-100">Up to 100</option>
+          <option value="101-300">101–300</option>
+          <option value="301-500">301–500</option>
+        </select>
+        <select id="size">
+          <option value="">XL or XXL</option>
+          <option value="XL">XL pieces</option>
+          <option value="XXL">XXL pieces</option>
+        </select>
+      </div>
+      <p class="notice">Delivery & collection Mondays 9–11am, or you can pick up. £1 per puzzle to cover fuel & restocking. <span class="pill">Message <strong>CONTACT_NAME</strong> via <strong>CONTACT_METHOD</strong> for the full list or to reserve.</span></p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="grid" class="grid" aria-live="polite"></div>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>
+        <strong>Volunteer service</strong> — bringing a little joy, comfort and connection through puzzles.
+      </div>
+      <a class="cta" id="reserveLink" href="#">Message to Borrow</a>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================
+       P U Z Z L E   C A T A L O G
+       ============================ */
+    const PUZZLES = [
+      {
+        title: "Country Cottage Garden",
+        pieces: 300,
+        size: "XXL",
+        subject: "Flowers / Garden",
+        image: "images/garden.jpg"
+      },
+      {
+        title: "Steam Train at Sunset",
+        pieces: 500,
+        size: "XL",
+        subject: "Transport / Train",
+        image: "images/train.jpg"
+      },
+      {
+        title: "Friendly Farm Animals",
+        pieces: 100,
+        size: "XXL",
+        subject: "Animals",
+        image: "images/farm.jpg"
+      },
+      {
+        title: "Seaside Harbour",
+        pieces: 63,
+        size: "XXL",
+        subject: "Coast / Boats",
+        image: "images/harbour.jpg"
+      }
+    ];
+
+    // -----------------------------
+    // Basic settings
+    const CONTACT_NAME = "Your Name";
+    const CONTACT_METHOD = "text on 07… or Facebook Messenger"; // e.g. "text on 07…" or "Facebook: @PuzzlesToShare"
+    const RESERVE_LINK = "#"; // optional: put your mailto: or messenger link here
+
+    // Apply contact details
+    document.body.innerHTML = document.body.innerHTML
+      .replaceAll("CONTACT_NAME", CONTACT_NAME)
+      .replaceAll("CONTACT_METHOD", CONTACT_METHOD);
+    const reserveLink = document.getElementById("reserveLink");
+    if (RESERVE_LINK && RESERVE_LINK !== "#") reserveLink.href = RESERVE_LINK;
+
+    // Render grid
+    const grid = document.getElementById('grid');
+
+    function card(p) {
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `
+        <img class="thumb" src="${p.image}" alt="${p.title}" loading="lazy" />
+        <div class="meta">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;">
+            <h3 style="margin:0;font-size:16px;">${p.title}</h3>
+            <span class="small">${p.pieces} pcs</span>
+          </div>
+          <div class="chips">
+            <span class="chip brand">${p.size} pieces</span>
+            <span class="chip">${p.subject}</span>
+          </div>
+        </div>`;
+      return el;
+    }
+
+    function render(list) {
+      grid.innerHTML = '';
+      if (!list.length) {
+        const d = document.createElement('div');
+        d.className = 'small';
+        d.textContent = 'No puzzles match your filters yet — try clearing them.';
+        grid.appendChild(d);
+        return;
+      }
+      for (const p of list) grid.appendChild(card(p));
+    }
+
+    function withinPieces(pieces, range) {
+      if (!range) return true;
+      const [a,b] = range.split('-').map(Number);
+      return pieces >= a && pieces <= b;
+    }
+
+    function applyFilters() {
+      const q = document.getElementById('q').value.trim().toLowerCase();
+      const range = document.getElementById('pieces').value;
+      const size = document.getElementById('size').value;
+      const list = PUZZLES.filter(p => {
+        const text = (p.title + ' ' + p.subject).toLowerCase();
+        const matchesQ = !q || text.includes(q);
+        const matchesRange = withinPieces(p.pieces, range);
+        const matchesSize = !size || p.size === size;
+        return matchesQ && matchesRange && matchesSize;
+      });
+      render(list);
+    }
+
+    document.getElementById('q').addEventListener('input', applyFilters);
+    document.getElementById('pieces').addEventListener('change', applyFilters);
+    document.getElementById('size').addEventListener('change', applyFilters);
+
+    // Initial render
+    render(PUZZLES);
+  </script>
+</body>
+</html>
